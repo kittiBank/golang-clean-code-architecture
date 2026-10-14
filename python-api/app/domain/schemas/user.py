@@ -54,3 +54,12 @@ class TokenPair(BaseModel):
 class UserLoginResponse(BaseModel):
     user: UserResponse
     token: TokenPair
+
+
+class UserPermissionResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    user_id: int | None
+    permission: str | None
+    updated_at: datetime | None

@@ -18,3 +18,7 @@ class AuthenticationError(DomainError):
 
 class NotFoundError(DomainError):
     pass
+
+
+class InvalidRequestError(DomainError):
+    pass

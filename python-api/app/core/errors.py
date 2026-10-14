@@ -14,6 +14,7 @@ from app.domain.exceptions import (
     AlreadyExistsError,
     AuthenticationError,
     DomainError,
+    InvalidRequestError,
     NotFoundError,
 )
 
@@ -29,6 +30,7 @@ DOMAIN_ERROR_STATUS: dict[type[DomainError], int] = {
     AlreadyExistsError: status.HTTP_409_CONFLICT,
     AuthenticationError: status.HTTP_401_UNAUTHORIZED,
     NotFoundError: status.HTTP_404_NOT_FOUND,
+    InvalidRequestError: status.HTTP_400_BAD_REQUEST,
 }
 
 

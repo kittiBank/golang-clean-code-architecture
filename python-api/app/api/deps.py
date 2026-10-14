@@ -8,8 +8,11 @@ from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.core.errors import JWT_AUTH_ERROR, AppError, domain_errors
+from app.crud_registry import CRUD_REGISTRY
 from app.models import User
+from app.repositories.crud_repository import SqlAlchemyCrudRepository
 from app.repositories.user_repository import SqlAlchemyUserRepository
+from app.usecases.crud_usecase import CrudUsecase
 from app.usecases.user_usecase import AuthContext, UserUsecase
 
 bearer_scheme = HTTPBearer(auto_error=False)
@@ -20,6 +23,13 @@ def get_user_usecase(db: Annotated[Session, Depends(get_db)]) -> UserUsecase:
 
 
 UserUsecaseDep = Annotated[UserUsecase, Depends(get_user_usecase)]
+
+
+def get_crud_usecase(db: Annotated[Session, Depends(get_db)]) -> CrudUsecase:
+    return CrudUsecase(SqlAlchemyCrudRepository(db), CRUD_REGISTRY)
+
+
+CrudUsecaseDep = Annotated[CrudUsecase, Depends(get_crud_usecase)]
 
 
 def get_auth_context(
