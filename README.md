@@ -1,122 +1,92 @@
-## Golang Clean Code Architecture Template
+# User Management – Clean Code App
 
-Go (Golang) Clean Architecture based on Reading Uncle Bob's Clean Architecture. This code using GoFiber, GORM and User registerm authentication feature.
+A user management app built by re-architecting a Go (GoFiber) Clean Architecture template into **Python FastAPI**, keeping the
+original business logic, plus a **React** frontend that consumes the API.
 
-## Installation
-1. Replace "github.com/max38/golang-clean-code-architecture" with "your module name"
-2. Copy or Change "env.template" file name to ".env" or ".env.dev"
-3. Check on code for loading config in these files
-```
-src/infrastructure/database/postgres/migration/main.go
-src/infrastructure/gofiber/main.go
-```
+- `python-api/`: FastAPI backend (the main app)
+- `frontend/`: React + Tailwind web app
+- `src/`: original Go app, kept as reference
 
-4. Run Postgresql
-5. Migrate RDBMS
-6. Start web project
+## Features
 
+- Register
+- Login and logout (JWT with automatic token refresh)
+- View profile
+- View users list with search, pagination and page size
+- View user details
+- API docs with Swagger
 
-### run postgresql on docker
-```bash
-docker run -p 5432:5432 --name postgres-golang-first-api -e POSTGRES_PASSWORD=golang-first-api -d postgres:15
-```
-or docker compose
-```bash
-docker-compose up
-```
+## Tech Stack
 
-### Migrate RDBMS
-```bash
-go run src/infrastructure/database/postgres/migration/main.go
-```
+| Layer | Technology |
+|---|---|
+| Frontend | React, TypeScript, Vite, Tailwind CSS |
+| Backend | Python, FastAPI, SQLAlchemy, Alembic |
+| Database | PostgreSQL |
+| Docker | Docker Compose (runs PostgreSQL) |
 
-### start web project (Production)
-
-```bash
-go run src/infrastructure/gofiber/main.go
-```
-
-
-# Template for every projdct
 ## Project Structure
-```
-src
- |-config
- |-domain
-    |-entities
-    |-models
-    |-repositories
- |-infrastructure
-    |-aws_lambda
-    |-database
-    |-gofiber
- |-interface
-    |-handlers
-       |-gofiber
-    |-repositories
-       |-postgres
- |-shared
- |-usecases
-```
 
-## Install lib
+```
+python-api/
+├── app/
+│   ├── api/            # API routes and request auth
+│   ├── usecases/       # business logic
+│   ├── domain/         # schemas, interfaces, errors
+│   ├── repositories/   # database queries
+│   ├── models/         # database tables
+│   └── core/           # config, database, security, errors
+├── alembic/            # database migrations
+└── tests/              # unit and API tests
 
-### REST API Lib
-```bash
-go get github.com/gofiber/fiber/v2
+frontend/src/
+├── api/                # API calls
+├── auth/               # login state and protected routes
+├── components/         # shared UI components
+├── hooks/              # shared React hooks
+└── pages/              # app pages
 ```
 
-### Generate Swagger Document
-1. Install follow this https://github.com/gofiber/swagger
-2. Go to ChatGPT and prompt with
-```
-Please generate Declarative Comments Format for Swagger Doc follow this gofiber code.
-"""<Handler Code>"""
-```
+## How to Run
 
-3. update Declarative Comments from ChatGPT to Handler
+**Requirements:** Docker, Python 3.12+ (developed and tested on 3.14), Node.js 22.22+
 
-4. Generate swagger.json
-```bash
-swag init -g src/infrastructure/gofiber/main.go -o src/infrastructure/gofiber/docs/
-```
-
-5. Go to localhost:3000/swagger/
-
-
-### Configuration Lib
-```bash
-go get github.com/knadh/koanf/v2
-go get github.com/knadh/koanf/providers/file
-go get github.com/knadh/koanf/providers/env
-go get github.com/knadh/koanf/parsers/dotenv
-```
-
-### GORM
-```bash
-go get -u gorm.io/gorm
-go get -u gorm.io/driver/postgresql
-```
-
-### MongoDB
-if use mongodb
-```bash
-go get go.mongodb.org/mongo-driver
-go get go.mongodb.org/mongo-driver/mongo
-```
-
-
-## For Development
-
-### Install Gofiber cli
-follow this https://github.com/gofiber/cli
-
-### start web project (Development)
+### 1. Database (Docker)
 
 ```bash
-fiber dev -t ./src/infrastructure/gofiber/main.go
+docker compose up -d db
 ```
 
-### Add More Model
-1. Define in src/domain/models/xxxx.go
-2. Add Model at src/config/crudModels.go
+This starts PostgreSQL on `localhost:5432` (user `postgres`, password `golang-first-api`).
+
+### 2. Backend (FastAPI)
+
+```bash
+cd python-api
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-dev.txt
+
+cp .env.example .env         
+alembic upgrade head          # create tables + seed the test user
+python -m app.main            # http://127.0.0.1:3000
+```
+
+- API docs: http://127.0.0.1:3000/docs
+- Test user: `user@example.com` / `123456`
+- Run tests: `pytest`
+
+### 3. Frontend (React)
+
+In a second terminal (the backend must be running):
+
+```bash
+cd frontend
+npm install
+npm run dev                   # http://localhost:5173
+```
+
+## Screenshots
+
+<!-- Add images to docs/screenshots/ and uncomment the lines below -->
+
