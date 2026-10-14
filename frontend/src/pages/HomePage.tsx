@@ -1,24 +1,22 @@
+import { Link } from 'react-router'
+
 import { useAuth } from '../auth/useAuth'
 
-// Placeholder landing page after login; profile / users pages come next
+// Placeholder landing page after login; the users list comes next
 export function HomePage() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
   const name = [user?.first_name, user?.last_name].filter(Boolean).join(' ') || user?.email
 
   return (
-    <main className="mx-auto max-w-2xl p-6">
-      <div className="flex items-center justify-between border-b border-gray-200 pb-4">
-        <h1 className="text-2xl font-bold text-gray-900">Home</h1>
-        <button
-          onClick={logout}
-          className="rounded border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-100"
-        >
-          Log out
-        </button>
-      </div>
-      <p className="mt-4 text-gray-700">
-        Logged in as <strong>{name}</strong> ({user?.email})
+    <>
+      <h1 className="mb-4 text-2xl font-bold text-gray-900">Welcome, {name}</h1>
+      <p className="text-gray-700">
+        See your account details on the{' '}
+        <Link to="/profile" className="text-blue-600 hover:underline">
+          Profile
+        </Link>{' '}
+        page.
       </p>
-    </main>
+    </>
   )
 }

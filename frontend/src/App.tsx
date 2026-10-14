@@ -2,8 +2,10 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 
 import { AuthProvider } from './auth/AuthContext'
 import { GuestOnly, RequireAuth } from './auth/routes'
+import { AppLayout } from './components/AppLayout'
 import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
+import { ProfilePage } from './pages/ProfilePage'
 import { RegisterPage } from './pages/RegisterPage'
 
 function App() {
@@ -16,7 +18,10 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
           </Route>
           <Route element={<RequireAuth />}>
-            <Route path="/" element={<HomePage />} />
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Route>
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

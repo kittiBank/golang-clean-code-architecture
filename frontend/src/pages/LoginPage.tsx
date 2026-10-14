@@ -11,7 +11,7 @@ import { TextField } from '../components/TextField'
 type LocationState = { email?: string; registered?: boolean; from?: string } | null
 
 export function LoginPage() {
-  const { login } = useAuth()
+  const { login, sessionExpired } = useAuth()
   const navigate = useNavigate()
   const state = useLocation().state as LocationState
 
@@ -37,6 +37,9 @@ export function LoginPage() {
     <AuthCard title="Log in">
       {state?.registered && !error && (
         <Alert type="success">Account created. Please log in.</Alert>
+      )}
+      {sessionExpired && !error && (
+        <Alert type="error">Your session has expired. Please log in again.</Alert>
       )}
       {error && <Alert type="error">{error}</Alert>}
 

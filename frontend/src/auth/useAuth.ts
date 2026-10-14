@@ -4,6 +4,7 @@ import type { LoginRequest, User } from '../api/types'
 
 export type AuthContextValue = {
   user: User | null
+  sessionExpired: boolean // true after the API ended the session (shown on the login page)
   login: (credentials: LoginRequest) => Promise<void>
   logout: () => Promise<void>
 }
