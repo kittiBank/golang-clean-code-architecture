@@ -1,40 +1,27 @@
-import { useEffect, useState } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 
-type Health = { name: string; version: string }
+import { AuthProvider } from './auth/AuthContext'
+import { GuestOnly, RequireAuth } from './auth/routes'
+import { HomePage } from './pages/HomePage'
+import { LoginPage } from './pages/LoginPage'
+import { RegisterPage } from './pages/RegisterPage'
 
-// Starter page: checks the frontend can reach the API through the Vite proxy
 function App() {
-  const [health, setHealth] = useState<Health | null>(null)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    fetch('/api/v1/')
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json()
-      })
-      .then(setHealth)
-      .catch((err: Error) => setError(err.message))
-  }, [])
-
   return (
-    <main className="mx-auto max-w-md p-6">
-      <h1 className="mb-4 text-2xl font-bold">Frontend is running</h1>
-      <div className="rounded border border-gray-300 p-4">
-        <h2 className="mb-2 font-semibold">API status</h2>
-        {health && (
-          <p className="text-green-700">
-            Connected: {health.name} v{health.version}
-          </p>
-        )}
-        {error && (
-          <p className="text-red-700">
-            Cannot reach API ({error}). Is the backend running on port 3000?
-          </p>
-        )}
-        {!health && !error && <p className="text-gray-500">Checking...</p>}
-      </div>
-    </main>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<GuestOnly />}>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Route>
+          <Route element={<RequireAuth />}>
+            <Route path="/" element={<HomePage />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 
