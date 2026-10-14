@@ -1,0 +1,10 @@
+# Root .gitignore ignores *.txt and *.env* - re-include what we need
+!requirements.txt
+!requirements-dev.txt
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
