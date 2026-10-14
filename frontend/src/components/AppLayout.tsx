@@ -17,7 +17,7 @@ export function AppLayout() {
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-2 px-4 py-3">
           <nav className="flex items-center gap-1">
-            <span className="mr-3 font-bold text-gray-900">Clean Code App</span>
+            <span className="mr-3 font-bold text-gray-900">User Management</span>
             <NavLink to="/" end className={navClass}>
               Home
             </NavLink>
