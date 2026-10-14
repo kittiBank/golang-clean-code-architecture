@@ -36,3 +36,22 @@ export type ApiErrorBody = {
   trace_id: string
   message: string
 }
+
+// Generic Data API (/data/{slug}) responses
+export type DataListResponse<T> = {
+  code: number
+  data: T[]
+  page: number
+  page_size: number
+  total_page: number
+  total_data: number
+  message: string
+  data_schema: Record<string, unknown>
+}
+
+export type DataResponse<T> = {
+  code: number
+  data: T
+  message: string
+  data_schema: Record<string, unknown>
+}
