@@ -90,3 +90,9 @@ npm run dev                   # http://localhost:5173
 
 <!-- Add images to docs/screenshots/ and uncomment the lines below -->
 
+- Register
+<img width="1447" height="802" alt="Screenshot 2569-10-14 at 17 32 18" src="https://github.com/user-attachments/assets/a4a3b57e-d217-4e58-96ed-92a6982ef5b0" />
+
+- User view
+<img width="1450" height="595" alt="Screenshot 2569-10-14 at 17 32 04" src="https://github.com/user-attachments/assets/3d3813d2-40aa-4c34-b837-f1c981710456" />
+
